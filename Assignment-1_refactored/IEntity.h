@@ -6,7 +6,7 @@
 class IEntity
 {
 public:
-    virtual double calculateFootPrint() = 0;
+    virtual double calculateCarbonFootPrint() = 0;
 };
 
 #endif

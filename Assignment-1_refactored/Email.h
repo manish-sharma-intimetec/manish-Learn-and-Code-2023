@@ -7,7 +7,7 @@ class Email : public IEntity
 {
 public:
     Email(int spamEmailCount, int standardEmailCount, int emailWithAttachmentsCounts);
-    double calculateFootPrint() override;
+    double calculateCarbonFootPrint() override;
 
 private:
     const double spamEmail = 0.3;
