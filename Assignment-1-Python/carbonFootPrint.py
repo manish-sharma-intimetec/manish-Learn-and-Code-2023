@@ -1,48 +1,44 @@
 import imaplib
-import email
 
+class GmailClient:
+    def __init__(self, user, password, imap_url="imap.gmail.com"):
+        self.user = user
+        self.password = password
+        self.imap_url = imap_url
+        self.connection = None
 
-standardEmails = 0
-spamEmails = 0
+    def connect(self):
+        self.connection = imaplib.IMAP4_SSL(self.imap_url)
+        self.connection.login(self.user, self.password)
 
+    def disconnect(self):
+        if self.connection:
+            self.connection.logout()
 
-user = "manish.sharma.intimetec@gmail.com"
-password = "uhst ymou sids ifdt"
-imapURL = "imap.gmail.com"
+    def get_email_count_for_folder(self, folder_name):
+        if not self.connection:
+            raise ValueError("Connection not established. Call connect() first.")
+        
+        result, data = self.connection.select(folder_name)
+        return len(data[0].split())
 
+def main():
+    user = "manish.sharma.intimetec@gmail.com"
+    password = "uhst ymou sids ifdt"
 
-def makeConnectionWithGmailServer():
-    connectionWithServer = imaplib.IMAP4_SSL(imapURL)
-    connectionWithServer.login(user, password)
-    return connectionWithServer
+    gmail_client = GmailClient(user, password)
 
+    try:
+        gmail_client.connect()
 
-def getEmailCountForFolder(serverConnection, folderName):
-    serverConnection.select(folderName)
-    result, data = serverConnection.search(None, "ALL")
-    return len(data[0].split())
+        standard_emails = gmail_client.get_email_count_for_folder("")
+        spam_emails = gmail_client.get_email_count_for_folder("Inbox")
 
-#connection with gmail server......
-# connectionWithServer = imaplib.IMAP4_SSL(imapURL)
+        print("Standard Emails:", standard_emails)
+        print("Spam Emails:", spam_emails)
 
-# connectionWithServer.login(user, password)
+    finally:
+        gmail_client.disconnect()
 
-# connectionWithServer.select("Inbox")
-
-# result, data = connectionWithServer.search(None, "ALL")
-
-
-
-connectionWithServer = makeConnectionWithGmailServer()
-standardEmails = getEmailCountForFolder(connectionWithServer, "")
-
-
-connectionWithServer = makeConnectionWithGmailServer()
-spamEmails = getEmailCountForFolder(connectionWithServer, "Inbox")
-
-# connectionWithServer.select("Spam")
-# result, data = connectionWithServer.search(None, "ALL")
-# spamEmails = len(data[0].split())
-
-print(spamEmails)
-print(standardEmails)
+if __name__ == "__main__":
+    main()
