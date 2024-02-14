@@ -1,5 +1,5 @@
 import imaplib
-import email
+# import email
 
 
 standardEmails = 0
@@ -17,9 +17,12 @@ def makeConnectionWithGmailServer():
     return connectionWithServer
 
 
-def getEmailCountForFolder(serverConnection, folderName):
-    serverConnection.select(folderName)
-    result, data = serverConnection.search(None, "ALL")
+def getEmailCountForFolder(connection, folderName):
+    print(connection.list())
+    print(connection.select(mailbox = folderName))
+    
+    result, data = connection.search(None, "ALL")
+
     return len(data[0].split())
 
 #connection with gmail server......
@@ -34,13 +37,13 @@ def getEmailCountForFolder(serverConnection, folderName):
 
 
 connectionWithServer = makeConnectionWithGmailServer()
-standardEmails = getEmailCountForFolder(connectionWithServer, "")
+standardEmails = getEmailCountForFolder(connectionWithServer, "Inbox")
 
+# connectionWithServer.logout()
+# connectionWithServer = makeConnectionWithGmailServer()
+spamEmails = getEmailCountForFolder(connectionWithServer, "[Gmail]/Spam")
 
-connectionWithServer = makeConnectionWithGmailServer()
-spamEmails = getEmailCountForFolder(connectionWithServer, "Inbox")
-
-# connectionWithServer.select("Spam")
+# print(connectionWithServer.select(mailbox="[Gmail]/Spam"))
 # result, data = connectionWithServer.search(None, "ALL")
 # spamEmails = len(data[0].split())
 

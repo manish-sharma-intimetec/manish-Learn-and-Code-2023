@@ -1,19 +1,15 @@
 #include<iostream>
 using namespace std;
 
-class email
+class Email
 {
 private:
-    double averageFootPrintForSpam = 0.3, averageFootPrintForStdMail = 4, averageFootPrintForAttachementMail;
-    int spamCount, stdEmailCount, emailsWithAttachments = 50;
+    const double averageFootPrintForSpam = 0.3, averageFootPrintForStdMail = 4, averageFootPrintForAttachementMail = 50;
+    int spamCount, stdEmailCount, emailsWithAttachments;
 
 public:
-    email()
-    {
 
-    }
-
-    email(int spamCount, int stdEmailCount, int emailsWithAttachments)
+    Email(int spamCount, int stdEmailCount, int emailsWithAttachments)
     {
         this->stdEmailCount = stdEmailCount;
         this->spamCount = this->spamCount;
@@ -48,13 +44,16 @@ int askUserEntityType()
 
 int main()
 {
-    int result = -1;
+    int emailFootPrint = -1;
     int entityType = askUserEntityType();
 
     if (entityType == 1)
     {
-        email emailObject(1, 3 , 4);
-        result = emailObject.getEmailFootPrint();
+        Email emailObject(1, 3 , 4);
+        emailFootPrint = emailObject.getEmailFootPrint();
     }
     
+
+    cout << "result : " << emailFootPrint;
+    return 0;
 }
