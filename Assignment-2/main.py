@@ -1,8 +1,16 @@
-from KaprekarConstant import *
-
+from KaprekarNumber import *
+from Input import *
+from InputValidity import *
 
 if __name__ == "__main__":
-    inputNumber = takeInputFromUser()
-    kaprekarConstantObj = KaprekarConstant(inputNumber)
+    input = Input()
+    userInput = input.getUserInput()
+
+    validInputOrNot = InputValidity(str(userInput))
     
-    print(kaprekarConstantObj.kaprekarRoutine())
+    if validInputOrNot.checkInputIsValidOrNot():
+        kaprekarConstantObj = KaprekarNumber(userInput)
+        print("Kaprekar value : ", kaprekarConstantObj.kaprekarRoutine())
+        kaprekarConstantObj.printKaprekarIterationsOutput()
+    else:
+        print("Input is not Valid")
